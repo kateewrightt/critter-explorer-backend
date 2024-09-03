@@ -6,7 +6,6 @@
     "start": "nodemon -L bin/www"
   },
   "dependencies": {
-    "aws-sdk": "^2.1459.0",
     "axios": "^1.5.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
