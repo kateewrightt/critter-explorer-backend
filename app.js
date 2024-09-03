@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -10,7 +11,7 @@ var citySearchRouter = require("./routes/citySearch");
 var cityDateTimeRouter = require("./routes/cityDateTime");
 var critterGridRouter = require("./routes/critterGrid");
 var critterImagesRouter = require("./routes/critterImages");
-var pageCountRouter = require("./routes/pageCount");
+// var pageCountRouter = require("./routes/pageCount");
 
 var app = express();
 app.use(cors());
@@ -24,7 +25,7 @@ app.use("/", indexRouter);
 app.use("/citySearch", citySearchRouter);
 app.use("/cityDateTime", cityDateTimeRouter);
 app.use("/critterGrid", critterGridRouter);
-app.use("/pageCount", pageCountRouter);
+// app.use("/pageCount", pageCountRouter);
 
 app.use(logger("dev"));
 app.use(express.json());
