@@ -14,7 +14,13 @@ var critterImagesRouter = require("./routes/critterImages");
 // var pageCountRouter = require("./routes/pageCount");
 
 var app = express();
-app.use(cors());
+const cors = require('cors');
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
