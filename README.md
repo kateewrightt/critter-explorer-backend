@@ -32,9 +32,9 @@ Here are the key API endpoints for interacting with the Critter Explorer backend
   [GET /cityDateTime/{cityId}/dateTime](https://critter-explorer-backend.onrender.com/cityDateTime/{cityId}/dateTime)
 
 - **NEW - Critter Data**: Retrieve lists of available critters in Animal Crossing based on type.  
-  [GET /bugs](https://critter-explorer-backend.onrender.com/bugs)
-  [GET /fish](https://critter-explorer-backend.onrender.com/fish)
-  [GET /sea-creatures](https://critter-explorer-backend.onrender.com/sea-creatures)
+  🪲 [GET /bugs](https://critter-explorer-backend.onrender.com/bugs)  
+  🐠 [GET /fish](https://critter-explorer-backend.onrender.com/fish)  
+  🪼 [GET /sea-creatures](https://critter-explorer-backend.onrender.com/sea-creatures)  
 
 - **Flickr Images**: Get real-life images of critters by their in-game name.  
   [GET /critterImages?bugName=butterfly](https://critter-explorer-backend.onrender.com/critterImages?bugName=butterfly)
@@ -55,7 +55,7 @@ Here are the key API endpoints for interacting with the Critter Explorer backend
 ---
 
 ### 5. Future Enhancements 🚀
-- **[Done] Adding fish and deep-sea creatures** to the critter data. 🌊🐟
+- ✅ **Adding fish and deep-sea creatures** to the critter data. 🌊🐟
 - **Improving API response times** by caching city and critter data:
 - **Enhanced Search Functionality**: Add search filters for location, critter type, or availability, improving user experience by allowing more specific queries.
 - **Image Optimisation**: Preprocess and cache images for faster display, reducing load time for users.
