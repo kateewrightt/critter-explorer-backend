@@ -51,6 +51,10 @@ Here are the key API endpoints for interacting with the Critter Explorer backend
 ### 4. System Requirements 🖥️
 - **Node.js** version 14 or higher.
 - Internet access to make external API requests.
+- An `.env` file with API keys for these services:
+**GeoDB Cities API** – [Get key](http://geodb-cities-api.wirefreethought.com/docs/api)  
+**Nookipedia API** – [Get key](https://api.nookipedia.com/)  
+**Flickr API** – [Get key](https://www.flickr.com/services/api/misc.api_keys.html)  
 
 ---
 
