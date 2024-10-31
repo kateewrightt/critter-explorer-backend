@@ -31,14 +31,13 @@ Here are the key API endpoints for interacting with the Critter Explorer backend
 - **Get City DateTime**: Fetch date and time for a specific city.  
   [GET /cityDateTime/{cityId}/dateTime](https://critter-explorer-backend.onrender.com/cityDateTime/{cityId}/dateTime)
 
-- **Critter Grid**: Retrieve a list of bugs available in Animal Crossing based on the real-time data.  
-  [GET /crittergrid](https://critter-explorer-backend.onrender.com/crittergrid)
+- **NEW - Critter Data**: Retrieve lists of available critters in Animal Crossing based on type.  
+  [GET /bugs](https://critter-explorer-backend.onrender.com/bugs)
+  [GET /fish](https://critter-explorer-backend.onrender.com/fish)
+  [GET /sea-creatures](https://critter-explorer-backend.onrender.com/sea-creatures)
 
 - **Flickr Images**: Get real-life images of critters by their in-game name.  
   [GET /critterImages?bugName=butterfly](https://critter-explorer-backend.onrender.com/critterImages?bugName=butterfly)
-
-- **Nookipedia Critter Data**: Fetch critter data from the Nookipedia API.  
-  [GET /nookipedia/bugs](https://critter-explorer-backend.onrender.com/nookipedia/bugs)
 
 ---
 
@@ -56,17 +55,18 @@ Here are the key API endpoints for interacting with the Critter Explorer backend
 ---
 
 ### 5. Future Enhancements 🚀
-- **Adding fish and deep-sea creatures** to the critter data. 🌊🐟
-- **Improving API response times** by caching city and critter data.
-- **Optimize image retrieval** for faster display.
+- **[Done] Adding fish and deep-sea creatures** to the critter data. 🌊🐟
+- **Improving API response times** by caching city and critter data:
+- **Enhanced Search Functionality**: Add search filters for location, critter type, or availability, improving user experience by allowing more specific queries.
+- **Image Optimisation**: Preprocess and cache images for faster display, reducing load time for users.
 
 ---
 
 ### 6. Deployment & Hosting 🌍
 
-The backend is currently hosted on **Render**, which is simple and free for small projects but can sometimes be slow, especially when scaling up. Future improvements may include hosting on platforms like **Vercel** for faster frontend performance and global edge functions.
+The backend is currently hosted on [**Render**](https://render.com/), which is simple and free for small projects but can sometimes be slow, especially when scaling up. Future improvements may include hosting on platforms like [**Vercel**](https://vercel.com/) for faster frontend performance and global edge functions.
 
-Originally, the app was deployed on **AWS** using an EC2 instance for the backend and S3 for the frontend. The React app was hosted on **Amazon S3**, and the Express app was containerized using **Docker** and deployed on an **EC2 instance**. This setup ensured scalability and reliability but was transitioned after the university account was no longer available.
+Originally, the app was deployed on [**AWS**](https://aws.amazon.com/) using an EC2 instance for the backend and S3 for the frontend. The React app was hosted on **Amazon S3**, and the Express app was containerized using **Docker** and deployed on an **EC2 instance**. This setup ensured scalability and reliability but was transitioned after the university account was no longer available.
 
 ---
 
