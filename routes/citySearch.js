@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
+const NodeCache = require("node-cache");
+const cityCache = new NodeCache({ stdTTL: 600 });
 
 router.get("/", async (req, res) => {
   const GEO_API_URL = "https://wft-geo-db.p.rapidapi.com/v1/geo";
@@ -15,6 +17,13 @@ router.get("/", async (req, res) => {
         .status(400)
         .json({ error: 'Query parameter "query" is required.' });
     }
+    const cacheKey = `city-${query}`;
+    const cachedResult = cityCache.get(cacheKey);
+
+    if (cachedResult) {
+      return res.json({ options: cachedResult });
+    }
+    
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Perform a search using the GeoDB Cities API
@@ -36,6 +45,8 @@ router.get("/", async (req, res) => {
       label: `${city.name}, ${city.countryCode}`,
       latitude: `${city.latitude}`,
     }));
+
+    cityCache.set(cacheKey, formattedData);
 
     res.json({ options: formattedData });
   } catch (error) {
