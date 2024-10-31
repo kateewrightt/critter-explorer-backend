@@ -3,13 +3,13 @@
 Welcome to the backend of **Critter Explorer**! This backend handles all the important data processing for displaying critters from Animal Crossing, fetching real-world critter images, and more! 🦋✨
 
 ## Table of Contents
-1. [What Does This Backend Do?](#1-what-does-this-backend-do)
-2. [Available Endpoints](#2-available-endpoints)
-3. [APIs Used](#3-apis-used)
-4. [System Requirements](#4-system-requirements)
-5. [Future Enhancements](#5-future-enhancements)
-6. [Deployment & Hosting](#6-deployment--hosting)
-7. [Links to the App](#7-links-to-the-app)
+1. [What Does This Backend Do?](#1-what-does-this-backend-do-)
+2. [Available Endpoints](#2-available-endpoints-)
+3. [APIs Used](#3-apis-used-)
+4. [System Requirements](#4-system-requirements-%EF%B8%8F)
+5. [Future Enhancements](#5-future-enhancements-)
+6. [Deployment & Hosting](#6-deployment--hosting-)
+7. [Links to the App](#7-links-to-the-app-)
 
 ---
 
