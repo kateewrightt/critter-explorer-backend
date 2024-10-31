@@ -55,7 +55,7 @@ Here are the key API endpoints for interacting with the Critter Explorer backend
 ---
 
 ### 5. Future Enhancements 🚀
-- ✅ **Adding fish and deep-sea creatures** to the critter data. 🌊🐟
+- **Adding fish and deep-sea creatures** to the critter data. ✅ DONE
 - **Improving API response times** by caching city and critter data:
 - **Enhanced Search Functionality**: Add search filters for location, critter type, or availability, improving user experience by allowing more specific queries.
 - **Image Optimisation**: Preprocess and cache images for faster display, reducing load time for users.
