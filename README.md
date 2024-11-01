@@ -41,7 +41,7 @@ Here are the key API endpoints for interacting with the Critter Explorer backend
 
 ---
 
-### 3. APIs Used 🌐
+### 3. APIs Used 🌏
 - **GeoDB Cities API**: Provides city names, date, and time.
 - **Nookipedia API**: For fetching critter data from Animal Crossing.
 - **Flickr API**: Used to retrieve real-life critter photos.
