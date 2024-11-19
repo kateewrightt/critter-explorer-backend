@@ -4,7 +4,6 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const cors = require("cors");
 
 var indexRouter = require("./routes/index");
 var citySearchRouter = require("./routes/citySearch");
@@ -16,7 +15,7 @@ var critterImagesRouter = require("./routes/critterImages");
 var app = express();
 const cors = require('cors');
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://critter-explorer.netlify.app', 'https://critter-explorer-2.netlify.app'], 
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://critter-explorer.netlify.app', 'https://critter-explorer-2.netlify.app'], 
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: false
