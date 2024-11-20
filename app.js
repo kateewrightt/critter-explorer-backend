@@ -16,7 +16,7 @@ var critterImagesRouter = require("./routes/critterImages");
 var app = express();
 const cors = require('cors');
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://critter-explorer.netlify.app', 'https://critter-explorer-2.netlify.app'], 
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://critter-explorer.netlify.app', 'https://critter-explorer-2.netlify.app', 'https://critter-explorer-original2023.netlify.app'], 
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: false
