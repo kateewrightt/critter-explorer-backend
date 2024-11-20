@@ -9,6 +9,7 @@ var indexRouter = require("./routes/index");
 var citySearchRouter = require("./routes/citySearch");
 var cityDateTimeRouter = require("./routes/cityDateTime");
 var critterImagesRouter = require("./routes/critterImages");
+var favicon = require("serve-favicon");
 
 var bugsRouter = require("./routes/bugs"); 
 var fishRouter = require("./routes/fish");
@@ -23,7 +24,11 @@ app.use(cors({
   credentials: false
 }));
 
-// view engine setup
+// Serve the favicon
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
+
+
+// View engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 
