@@ -23,21 +23,31 @@ The backend of Critter Explorer:
 ---
 
 ### 2. Available Endpoints 🌐
-Here are the key API endpoints for interacting with the Critter Explorer backend:
+Below are the key API endpoints for interacting with the Critter Explorer backend:
 
-- **City Search**: Search for cities by name.  
-  [GET /citysearch?query=brisbane](https://critter-explorer-backend-2.onrender.com/citysearch?query=brisbane)
+1. **City Search**  
+   - **Purpose**: Search for cities by name.  
+   - **Usage**: Replace `brisbane` with the desired city name.  
+   - **Example**: [GET /citysearch?query=brisbane](https://critter-explorer-backend-2.onrender.com/citysearch?query=brisbane)
 
-- **Get City DateTime**: Fetch date and time for a specific city.  
-  [GET /cityDateTime/{cityId}/dateTime](https://critter-explorer-backend-2.onrender.com/cityDateTime/{cityId}/dateTime)
+2. **Get City DateTime**  
+   - **Purpose**: Fetch the current date and time for a specific city using its `cityId`.  
+   - **Usage**: Use a valid `cityId` from the City Search results.  
+   - **Example**: [GET /cityDateTime/5499/dateTime](https://critter-explorer-backend-2.onrender.com/cityDateTime/5499/dateTime) (Brisbane)
 
-- **NEW - Critter Data**: Retrieve lists of available critters in Animal Crossing based on type.  
-  🪲 [GET /bugs](https://critter-explorer-backend-2.onrender.com/bugs)  
-  🐠 [GET /fish](https://critter-explorer-backend-2.onrender.com/fish)  
-  🪼 [GET /sea-creatures](https://critter-explorer-backend-2.onrender.com/sea-creatures)  
+3. **Critter Data**  
+   - **Purpose**: Retrieve lists of available critters in Animal Crossing.  
+   - **Usage**: Access specific critter types via dedicated endpoints.  
+     - 🪲 [GET /bugs](https://critter-explorer-backend-2.onrender.com/bugs) - All bugs  
+     - 🐠 [GET /fish](https://critter-explorer-backend-2.onrender.com/fish) - All fish  
+     - 🪼 [GET /sea-creatures](https://critter-explorer-backend-2.onrender.com/sea-creatures) - All sea creatures  
 
-- **Flickr Images**: Get real-life images of critters by their in-game name.  
-  [GET /critterImages?bugName=butterfly](https://critter-explorer-backend-2.onrender.com/critterImages?bugName=butterfly)
+4. **Flickr Images**  
+   - **Purpose**: Retrieve real-life images of critters by their in-game name.  
+   - **Usage**: Replace `butterfly` with the desired critter name.  
+   - **Example**: [GET /critterImages?critterName=butterfly](https://critter-explorer-backend-2.onrender.com/critterImages?critterName=butterfly)
+
+Click on any endpoint link to test it and view the response data.
 
 ---
 
