@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node bin/www",
-    "dev": "nodemon -L bin/www"
+    "start": "nodemon -L bin/www"
   },
   "dependencies": {
     "axios": "^1.5.0",
@@ -21,8 +20,5 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
-  },
-  "engines": {
-    "node": "16.x"
   }
 }
