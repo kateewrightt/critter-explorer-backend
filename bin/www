@@ -64,21 +64,22 @@
    }
  
    var bind = typeof port === "string"
-     ? "Pipe " + port
-     : "Port " + port;
+     ? `Pipe ${port}`
+     : `Port ${port}`;
  
    // Handle specific listen errors with friendly messages
+   let errorMessage;
    switch (error.code) {
      case "EACCES":
-       const errorMessage1 = `${new Date().toISOString()} - ${bind} requires elevated privileges\n`;
-       console.error(errorMessage1);
-       serverLogStream.write(errorMessage1);
+       errorMessage = `${new Date().toISOString()} - ${bind} requires elevated privileges\n`;
+       console.error(errorMessage);
+       serverLogStream.write(errorMessage);
        process.exit(1);
        break;
      case "EADDRINUSE":
-       const errorMessage2 = `${new Date().toISOString()} - ${bind} is already in use\n`;
-       console.error(errorMessage2);
-       serverLogStream.write(errorMessage2);
+       errorMessage = `${new Date().toISOString()} - ${bind} is already in use\n`;
+       console.error(errorMessage);
+       serverLogStream.write(errorMessage);
        process.exit(1);
        break;
      default:
@@ -93,10 +94,21 @@
  function onListening() {
    var addr = server.address();
    var bind = typeof addr === "string"
-     ? "pipe " + addr
-     : "port " + addr.port;
+     ? `pipe ${addr}`
+     : `port ${addr.port}`;
    const logMessage = `${new Date().toISOString()} - Listening on ${bind}\n`;
    console.log(logMessage);
    serverLogStream.write(logMessage);
  }
+ 
+ // Global process logging for SIGTERM (Render shutdowns)
+ process.on("SIGTERM", () => {
+   const shutdownLog = `${new Date().toISOString()} - Received SIGTERM. Shutting down gracefully.\n`;
+   console.error(shutdownLog);
+   serverLogStream.write(shutdownLog);
+   server.close(() => {
+     serverLogStream.write(`${new Date().toISOString()} - Server has shut down.\n`);
+     process.exit(0);
+   });
+ });
  
