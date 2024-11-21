@@ -26,11 +26,15 @@
  
  var server = http.createServer(app);
  
+ // Increase timeout values
+ server.keepAliveTimeout = 120000; // 120 seconds
+ server.headersTimeout = 120000; // 120 seconds
+ 
  /**
   * Listen on provided port, on all network interfaces.
   */
  
- server.listen(port);
+ server.listen(port, "0.0.0.0"); // Bind to 0.0.0.0
  server.on("error", onError);
  server.on("listening", onListening);
  
@@ -101,14 +105,29 @@
    serverLogStream.write(logMessage);
  }
  
- // Global process logging for SIGTERM (Render shutdowns)
+ /**
+  * Handle SIGTERM for graceful shutdowns
+  */
+ 
  process.on("SIGTERM", () => {
    const shutdownLog = `${new Date().toISOString()} - Received SIGTERM. Shutting down gracefully.\n`;
    console.error(shutdownLog);
    serverLogStream.write(shutdownLog);
+ 
+   // Close server gracefully
    server.close(() => {
-     serverLogStream.write(`${new Date().toISOString()} - Server has shut down.\n`);
+     const closedLog = `${new Date().toISOString()} - Server has shut down.\n`;
+     console.log(closedLog);
+     serverLogStream.write(closedLog);
      process.exit(0);
    });
+ 
+   // Force shutdown after a timeout
+   setTimeout(() => {
+     const forceShutdownLog = `${new Date().toISOString()} - Forced shutdown due to timeout.\n`;
+     console.error(forceShutdownLog);
+     serverLogStream.write(forceShutdownLog);
+     process.exit(1);
+   }, 10000); // 10 seconds timeout
  });
  
