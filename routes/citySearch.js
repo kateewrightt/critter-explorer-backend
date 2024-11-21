@@ -5,15 +5,13 @@ const NodeCache = require("node-cache");
 const Bottleneck = require("bottleneck");
 
 // Initialize cache with a 10-minute TTL
-const cityCache = new NodeCache({ stdTTL: 3600 }); // Cache for 1 hour
+const cityCache = new NodeCache({ stdTTL: 600 });
 
 // Initialize rate limiter
 const limiter = new Bottleneck({
-  maxConcurrent: 1,
-  minTime: 2000,
-  reservoir: 5,      // Allow up to 5 requests in quick succession
-  reservoirRefreshAmount: 5, 
-  reservoirRefreshInterval: 10000, // Refill every 10 seconds
+  maxConcurrent: 1, // Only one request at a time
+  minTime: 2000,    // 2 seconds between requests
+  debug: true,      // Enable Bottleneck debugging
 });
 
 // Set Axios timeout globally
@@ -23,7 +21,7 @@ axios.defaults.timeout = 15000; // 15 seconds
 const GEO_API_URL = "https://wft-geo-db.p.rapidapi.com/v1/geo";
 const GEO_API_KEY = process.env.GEO_API_KEY;
 
-// Enhanced fetch function with detailed retry handling
+// Enhanced fetch function with retry handling and better wait time
 const fetchCityDataWithRetry = limiter.wrap(async (query, retries = 3) => {
   try {
     console.log(`[INFO] [${new Date().toISOString()}] Fetching data for: ${query}`);
@@ -39,20 +37,14 @@ const fetchCityDataWithRetry = limiter.wrap(async (query, retries = 3) => {
   } catch (error) {
     if (error.response?.status === 429 && retries > 0) {
       console.warn(
-        `[WARN] [${new Date().toISOString()}] Rate limit hit for ${query}. Retrying in 2 seconds... (${retries} retries left)`
+        `[WARN] [${new Date().toISOString()}] Rate limit hit for ${query}. Retrying in 3 seconds... (${retries} retries left)`
       );
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait 2 seconds
-      return fetchCityDataWithRetry(query, retries - 1); // Retry
-    }
-
-    // Log final failure after all retries
-    if (retries === 0) {
-      console.error(`[ERROR] [${new Date().toISOString()}] Out of retries for ${query}.`);
-      throw new Error(`Rate limit exceeded for ${query}`);
+      await new Promise((resolve) => setTimeout(resolve, 3000)); // Wait 3 seconds
+      return fetchCityDataWithRetry(query, retries - 1);
     }
 
     console.error(`[ERROR] [${new Date().toISOString()}] Failed to fetch data for ${query}: ${error.message}`);
-    throw error; // Pass the error to the caller
+    throw error;
   }
 });
 
@@ -62,9 +54,7 @@ router.get("/", async (req, res) => {
 
     if (!query) {
       console.error(`[ERROR] Missing required query parameter: "query".`);
-      return res
-        .status(400)
-        .json({ error: 'Query parameter "query" is required.' });
+      return res.status(400).json({ error: 'Query parameter "query" is required.' });
     }
 
     const cacheKey = `city-${query.toLowerCase()}`;
@@ -77,7 +67,6 @@ router.get("/", async (req, res) => {
     }
 
     console.log(`[INFO] [${new Date().toISOString()}] No cache found. Fetching data for: ${query}`);
-    console.log(`[DEBUG] Queue size before request: ${limiter.queued()}`);
 
     // Fetch data with retry and rate limit
     const data = await fetchCityDataWithRetry(query);
@@ -95,26 +84,13 @@ router.get("/", async (req, res) => {
     console.log(`[INFO] [${new Date().toISOString()}] Data successfully cached for query: ${query}`);
     res.json({ options: formattedData });
   } catch (error) {
-    console.error(`[ERROR] [${new Date().toISOString()}] Error fetching search results for ${req.query.query}:`, error.message || error);
+    console.error(`[ERROR] Error fetching search results for ${req.query.query}: ${error.message || error}`);
 
-    // Respond with an error message after retries are exhausted
+    // Respond with an error message
     res.status(500).json({
       error: error.message || "Internal server error",
     });
   }
-});
-
-// Monitor Bottleneck events
-limiter.on("queued", () => {
-  console.log(`[DEBUG] [${new Date().toISOString()}] A job has been queued. Current queue size: ${limiter.queued()}`);
-});
-
-limiter.on("executing", (jobInfo) => {
-  console.log(`[DEBUG] [${new Date().toISOString()}] Executing job with ID: ${jobInfo.id}`);
-});
-
-limiter.on("failed", (error, jobInfo) => {
-  console.error(`[ERROR] [${new Date().toISOString()}] Job with ID: ${jobInfo.id} failed: ${error.message}`);
 });
 
 module.exports = router;
