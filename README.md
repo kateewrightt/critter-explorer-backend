@@ -28,24 +28,24 @@ Below are the key API endpoints for interacting with the Critter Explorer backen
 1. **City Search**  
    - **Purpose**: Search for cities by name.  
    - **Usage**: Replace `brisbane` with the desired city name.  
-   - **Example**: [GET /citysearch?query=brisbane](https://critter-explorer-backend-2.onrender.com/citysearch?query=brisbane)
+   - **Example**: [GET /citysearch?query=brisbane](https://critter-explorer-backend.onrender.com/citysearch?query=brisbane)
 
 2. **Get City DateTime**  
    - **Purpose**: Fetch the current date and time for a specific city using its `cityId`.  
    - **Usage**: Use a valid `cityId` from the City Search results.  
-   - **Example**: [GET /cityDateTime/5499/dateTime](https://critter-explorer-backend-2.onrender.com/cityDateTime/5499/dateTime) (Brisbane)
+   - **Example**: [GET /cityDateTime/5499/dateTime](https://critter-explorer-backend.onrender.com/cityDateTime/5499/dateTime) (Brisbane)
 
 3. **Critter Data**  
    - **Purpose**: Retrieve lists of available critters in Animal Crossing.  
    - **Usage**: Access specific critter types via dedicated endpoints.  
-     - 🪲 [GET /bugs](https://critter-explorer-backend-2.onrender.com/bugs) - All bugs  
-     - 🐠 [GET /fish](https://critter-explorer-backend-2.onrender.com/fish) - All fish  
-     - 🪼 [GET /sea-creatures](https://critter-explorer-backend-2.onrender.com/sea-creatures) - All sea creatures  
+     - 🪲 [GET /bugs](https://critter-explorer-backend.onrender.com/bugs) - All bugs  
+     - 🐠 [GET /fish](https://critter-explorer-backend.onrender.com/fish) - All fish  
+     - 🪼 [GET /sea-creatures](https://critter-explorer-backend.onrender.com/sea-creatures) - All sea creatures  
 
 4. **Flickr Images**  
    - **Purpose**: Retrieve real-life images of critters by their in-game name.  
    - **Usage**: Replace `butterfly` with the desired critter name.  
-   - **Example**: [GET /critterImages?critterName=butterfly](https://critter-explorer-backend-2.onrender.com/critterImages?critterName=butterfly)
+   - **Example**: [GET /critterImages?critterName=butterfly](https://critter-explorer-backend.onrender.com/critterImages?critterName=butterfly)
 
 Click on any endpoint link to test it and view the response data.
 
@@ -98,12 +98,12 @@ Previously, the app used [**AWS**](https://aws.amazon.com/) with **S3** for the 
 ---
 
 ### 7. Links to the App 🔗
-- **Frontend**: [Critter Explorer Frontend](https://critter-explorer-2.netlify.app/)
-- **Backend**: [Critter Explorer Backend](https://critter-explorer-backend-2.onrender.com/)
+- **Frontend**: [Critter Explorer Frontend](https://critter-explorer.netlify.app/)
+- **Backend**: [Critter Explorer Backend](https://critter-explorer-backend.onrender.com/)
 
 Want to see previous versions? Check out the old frontend and backend from 2023:
-- **Old Frontend (2023)**: [Critter Explorer Frontend - Old Version](https://critter-explorer.netlify.app/)
-- **Old Backend (2023)**: [Critter Explorer Backend - Old Version](https://critter-explorer-backend.onrender.com/)
+- **Old Frontend (2023)**: [Critter Explorer Frontend - Old Version](https://critter-explorer-original2023.netlify.app/)
+- **Old Backend (2023)**: [Critter Explorer Backend - Old Version](https://critter-explorer-backend-original2023.onrender.com/)
 
 ---
 
