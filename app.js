@@ -7,9 +7,6 @@ var logger = require("morgan");
 const cors = require("cors");
 var fs = require("fs");
 
-// Create a write stream for logs
-const logStream = fs.createWriteStream(path.join(__dirname, "app.log"), { flags: "a" });
-
 var indexRouter = require("./routes/index");
 var citySearchRouter = require("./routes/citySearch");
 var cityDateTimeRouter = require("./routes/cityDateTime");
@@ -21,6 +18,32 @@ var fishRouter = require("./routes/fish");
 var seaCreaturesRouter = require("./routes/seaCreatures");
 
 var app = express();
+
+// Log file paths
+const appLogPath = path.join(__dirname, "app.log");
+const serverLogPath = path.join(__dirname, "../server.log");
+
+// Create write streams for logs
+const appLogStream = fs.createWriteStream(appLogPath, { flags: "a" });
+
+// Serve logs via endpoints
+app.get('/logs/app', (req, res) => {
+  fs.readFile(appLogPath, "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).send("Unable to read app log.");
+    }
+    res.type("text/plain").send(data);
+  });
+});
+
+app.get('/logs/server', (req, res) => {
+  fs.readFile(serverLogPath, "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).send("Unable to read server log.");
+    }
+    res.type("text/plain").send(data);
+  });
+});
 
 app.use(cors({
   origin: [
@@ -51,7 +74,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use((req, res, next) => {
   const logEntry = `${new Date().toISOString()} - ${req.method} ${req.url} - User-Agent: ${req.headers['user-agent']}\n`;
   console.log(logEntry); // Log to console
-  logStream.write(logEntry); // Write to app.log
+  appLogStream.write(logEntry); // Write to app.log
   next();
 });
 
@@ -73,27 +96,12 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   const errorEntry = `${new Date().toISOString()} - ERROR: ${err.message}\nStack Trace: ${err.stack}\n`;
   console.error(errorEntry); // Log to console
-  logStream.write(errorEntry); // Write to app.log
+  appLogStream.write(errorEntry); // Write to app.log
   res.status(err.status || 500);
   res.json({
     message: err.message,
     error: req.app.get("env") === "development" ? err : {}
   });
-});
-
-// Global error handling for uncaught exceptions
-process.on("uncaughtException", (err) => {
-  const logEntry = `${new Date().toISOString()} - Uncaught Exception: ${err.message}\nStack Trace: ${err.stack}\n`;
-  console.error(logEntry);
-  fs.appendFileSync(path.join(__dirname, "app.log"), logEntry);
-  process.exit(1);
-});
-
-process.on("unhandledRejection", (reason, promise) => {
-  const logEntry = `${new Date().toISOString()} - Unhandled Rejection: ${reason}\n`;
-  console.error(logEntry);
-  fs.appendFileSync(path.join(__dirname, "app.log"), logEntry);
-  process.exit(1);
 });
 
 module.exports = app;
