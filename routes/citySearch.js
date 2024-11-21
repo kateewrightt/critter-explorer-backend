@@ -5,26 +5,28 @@ const NodeCache = require("node-cache");
 const Bottleneck = require("bottleneck");
 
 // Initialize cache with a 10-minute TTL
-const cityCache = new NodeCache({ stdTTL: 600 });
+const cityCache = new NodeCache({ stdTTL: 3600 }); // Cache for 1 hour
 
 // Initialize rate limiter
 const limiter = new Bottleneck({
-  maxConcurrent: 1, // Only one request at a time
-  minTime: 1000,    // 1 second between requests
-  debug: true,      // Enable Bottleneck debugging
+  maxConcurrent: 1,
+  minTime: 2000,
+  reservoir: 5,      // Allow up to 5 requests in quick succession
+  reservoirRefreshAmount: 5, 
+  reservoirRefreshInterval: 10000, // Refill every 10 seconds
 });
 
 // Set Axios timeout globally
-axios.defaults.timeout = 10000; // 10 seconds
+axios.defaults.timeout = 15000; // 15 seconds
 
 // GeoDB API configuration
 const GEO_API_URL = "https://wft-geo-db.p.rapidapi.com/v1/geo";
 const GEO_API_KEY = process.env.GEO_API_KEY;
 
-// Enhanced fetch function with retry handling
+// Enhanced fetch function with detailed retry handling
 const fetchCityDataWithRetry = limiter.wrap(async (query, retries = 3) => {
   try {
-    console.log(`[INFO] Attempting to fetch data for: ${query}`);
+    console.log(`[INFO] [${new Date().toISOString()}] Fetching data for: ${query}`);
     const response = await axios.get(`${GEO_API_URL}/cities`, {
       params: { minPopulation: 100000, namePrefix: query },
       headers: {
@@ -32,28 +34,27 @@ const fetchCityDataWithRetry = limiter.wrap(async (query, retries = 3) => {
         "X-RapidAPI-Host": "wft-geo-db.p.rapidapi.com",
       },
     });
-    console.log(`[INFO] Successfully fetched data for: ${query}`);
+    console.log(`[INFO] [${new Date().toISOString()}] Successfully fetched data for: ${query}`);
     return response.data.data;
   } catch (error) {
     if (error.response?.status === 429 && retries > 0) {
       console.warn(
-        `[WARN] Rate limit hit for ${query}. Retrying in 2 seconds... (${retries} retries left at ${new Date().toISOString()})`
+        `[WARN] [${new Date().toISOString()}] Rate limit hit for ${query}. Retrying in 2 seconds... (${retries} retries left)`
       );
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait 2 seconds
-      return fetchCityDataWithRetry(query, retries - 1);
+      return fetchCityDataWithRetry(query, retries - 1); // Retry
     }
 
     // Log final failure after all retries
     if (retries === 0) {
-      console.error(`[ERROR] Out of retries for ${query}.`);
+      console.error(`[ERROR] [${new Date().toISOString()}] Out of retries for ${query}.`);
       throw new Error(`Rate limit exceeded for ${query}`);
     }
 
-    console.error(`[ERROR] Failed to fetch data for ${query}: ${error.message}`);
-    throw error;
+    console.error(`[ERROR] [${new Date().toISOString()}] Failed to fetch data for ${query}: ${error.message}`);
+    throw error; // Pass the error to the caller
   }
 });
-
 
 router.get("/", async (req, res) => {
   try {
@@ -71,11 +72,12 @@ router.get("/", async (req, res) => {
 
     // Serve from cache if available
     if (cachedResult) {
-      console.log(`[INFO] Cache hit for query: ${query}`);
+      console.log(`[INFO] [${new Date().toISOString()}] Cache hit for query: ${query}`);
       return res.json({ options: cachedResult });
     }
 
-    console.log(`[INFO] No cache found. Fetching data for: ${query}`);
+    console.log(`[INFO] [${new Date().toISOString()}] No cache found. Fetching data for: ${query}`);
+    console.log(`[DEBUG] Queue size before request: ${limiter.queued()}`);
 
     // Fetch data with retry and rate limit
     const data = await fetchCityDataWithRetry(query);
@@ -90,10 +92,10 @@ router.get("/", async (req, res) => {
     // Cache the formatted response
     cityCache.set(cacheKey, formattedData);
 
-    console.log(`[INFO] Data successfully cached for query: ${query}`);
+    console.log(`[INFO] [${new Date().toISOString()}] Data successfully cached for query: ${query}`);
     res.json({ options: formattedData });
   } catch (error) {
-    console.error(`[ERROR] Error fetching search results for ${req.query.query}:`, error.message || error);
+    console.error(`[ERROR] [${new Date().toISOString()}] Error fetching search results for ${req.query.query}:`, error.message || error);
 
     // Respond with an error message after retries are exhausted
     res.status(500).json({
@@ -102,5 +104,17 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Monitor Bottleneck events
+limiter.on("queued", () => {
+  console.log(`[DEBUG] [${new Date().toISOString()}] A job has been queued. Current queue size: ${limiter.queued()}`);
+});
+
+limiter.on("executing", (jobInfo) => {
+  console.log(`[DEBUG] [${new Date().toISOString()}] Executing job with ID: ${jobInfo.id}`);
+});
+
+limiter.on("failed", (error, jobInfo) => {
+  console.error(`[ERROR] [${new Date().toISOString()}] Job with ID: ${jobInfo.id} failed: ${error.message}`);
+});
 
 module.exports = router;
