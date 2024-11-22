@@ -50,7 +50,9 @@ app.use(cors({
     'http://localhost:3000',
     'http://localhost:3001',
     'https://critter-explorer.netlify.app',
-    'https://critter-explorer-2.netlify.app'
+    'https://critter-explorer-2.netlify.app',
+    'https://critter-explorer.com',
+    'https://www.critter-explorer.com'
   ],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
