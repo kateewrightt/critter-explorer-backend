@@ -78,6 +78,23 @@ function onError(error) {
 }
 
 /**
+ * Add a listener to handle SIGTERM signal for graceful shutdown.
+ */
+
+ process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received: Closing HTTP server...');
+  server.close((err) => {
+    if (err) {
+      console.error('Error occurred while closing the server:', err);
+      process.exit(1); // Exit with failure code if an error occurs
+    } else {
+      console.log('HTTP server closed successfully.');
+      process.exit(0); // Exit with success code
+    }
+  });
+});
+
+/**
  * Event listener for HTTP server "listening" event.
  */
 
