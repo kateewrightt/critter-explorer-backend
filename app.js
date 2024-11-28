@@ -8,14 +8,14 @@ const cors = require("cors");
 var fs = require("fs");
 
 var indexRouter = require("./routes/index");
-var citySearchRouter = require("./routes/citySearch");
-var cityDateTimeRouter = require("./routes/cityDateTime");
-var critterImagesRouter = require("./routes/critterImages");
+var citySearchRouter = require("./routes/city-search");
+var cityDateTimeRouter = require("./routes/city-datetime");
+var critterImagesRouter = require("./routes/flickr-gallery");
 var favicon = require("serve-favicon");
 
-var bugsRouter = require("./routes/bugs");
-var fishRouter = require("./routes/fish");
-var seaCreaturesRouter = require("./routes/seaCreatures");
+var bugsRouter = require("./routes/critter-bugs");
+var fishRouter = require("./routes/critter-fish");
+var seaCreaturesRouter = require("./routes/critter-sea");
 
 var app = express();
 
