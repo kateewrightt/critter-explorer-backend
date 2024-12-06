@@ -1,7 +1,8 @@
-const express = require("express");
+import express from "express";
+import axios from "axios";
+import NodeCache from "node-cache";
+
 const router = express.Router();
-const axios = require("axios");
-const NodeCache = require("node-cache");
 
 // Initialize cache with a 10-minute TTL
 const cityCache = new NodeCache({ stdTTL: 600 });
@@ -90,4 +91,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
