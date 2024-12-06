@@ -3,12 +3,13 @@
 /**
  * Module dependencies.
  */
-
- var app = require("../app");
- var debug = require("debug")("exp-critter-explorer:server");
- var http = require("http");
- var fs = require("fs");
- var path = require("path");
+ import app from "../app";
+ import debug from "debug";
+ import http from "http";
+ import fs from "fs";
+ import path from "path";
+ 
+ const serverDebug = debug("exp-critter-explorer:server");
  
  // Create a write stream for server logs
  const serverLogStream = fs.createWriteStream(path.join(__dirname, "../server.log"), { flags: "a" });
