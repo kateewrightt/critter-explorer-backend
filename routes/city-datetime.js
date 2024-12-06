@@ -1,8 +1,9 @@
-const express = require("express");
+import express from "express";
+import axios from "axios";
+import NodeCache from "node-cache";
+import Bottleneck from "bottleneck";
+
 const router = express.Router();
-const axios = require("axios");
-const NodeCache = require("node-cache");
-const Bottleneck = require("bottleneck");
 
 // Initialize cache with a 10-minute TTL
 const dateTimeCache = new NodeCache({ stdTTL: 600 });
@@ -94,4 +95,4 @@ router.get("/:cityId/dateTime", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
