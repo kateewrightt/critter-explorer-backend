@@ -1,20 +1,24 @@
-require("dotenv").config();
-const createError = require("http-errors");
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const cors = require("cors");
-const fs = require("fs");
+import "dotenv/config";
+import createError from "http-errors";
+import express from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import cors from "cors";
+import fs from "fs";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Import routes
-const indexRouter = require("./routes/index"); // Correctly point to your index route
-const citySearchRouter = require("./routes/city-search");
-const cityDateTimeRouter = require("./routes/city-datetime");
-const critterImagesRouter = require("./routes/flickr-gallery");
-const bugsRouter = require("./routes/critter-bugs");
-const fishRouter = require("./routes/critter-fish");
-const seaCreaturesRouter = require("./routes/critter-sea");
+import indexRouter from "./routes/index.js";
+import citySearchRouter from "./routes/city-search.js";
+import cityDateTimeRouter from "./routes/city-datetime.js";
+import critterImagesRouter from "./routes/flickr-gallery.js";
+import bugsRouter from "./routes/critter-bugs.js";
+import fishRouter from "./routes/critter-fish.js";
+import seaCreaturesRouter from "./routes/critter-sea.js";
 
 const app = express();
 
@@ -64,4 +68,4 @@ app.use(function (err, req, res, next) {
   });
 });
 
-module.exports = app;
+export default app;
