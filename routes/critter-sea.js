@@ -1,8 +1,13 @@
-const express = require("express");
+import express from "express";
+import axios from "axios";
+import { promises as fs } from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const router = express.Router();
-const axios = require("axios");
-const fs = require("fs").promises;
-const path = require("path");
 
 const NOOK_API_URL = "https://api.nookipedia.com";
 const NOOK_API_KEY = process.env.NOOK_API_KEY;
@@ -44,4 +49,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
