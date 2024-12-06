@@ -1,5 +1,8 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
+import { Router } from "express";
+import fetch from "node-fetch";
+
+const router = Router();
 
 router.get("/", async (req, res) => {
   const FLICKR_API_KEY = process.env.FLICKR_API_KEY;
@@ -36,4 +39,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
