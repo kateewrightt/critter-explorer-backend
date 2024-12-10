@@ -96,15 +96,19 @@ Click on any endpoint link to test it and view the response data.
 
 ### 6. Deployment & Hosting 🌍
 
-The backend is currently hosted on [**Render**](https://render.com/), which is simple and free for small projects but can sometimes be slow, especially when scaling up. It takes approximately 50 seconds to scale up on the free tier.
+The backend has transitioned through several hosting solutions:
 
-Previously, the app used [**AWS**](https://aws.amazon.com/) with **S3** for the frontend and **Docker** on **EC2** for the backend. This setup was scalable but was retired when the university AWS account ended.
+- **AWS**: Initially hosted using **S3** for the frontend and **EC2** with Docker for the backend. This setup was scalable but retired when the university AWS account expired.
+
+- **Render**: Moved to [**Render**](https://critter-explorer-backend.onrender.com/), which offered a simple setup without requiring additional configurations. However, the free tier had significant drawbacks, including slow cold starts (up to 50 seconds) and frequent downtime due to auto-scaling limits.
+
+- **Vercel**: Currently hosted on [**Vercel**](https://critter-explorer-backend.vercel.app/), which provides faster performance and more reliability with features like caching, a global CDN, and no cold starts on the free tier. This setup ensures the backend remains responsive and scalable without additional costs.
 
 ---
 
 ### 7. Links to the App 🔗
-- **Frontend**: [Critter Explorer Frontend](https://critter-explorer.netlify.app/)
-- **Backend**: [Critter Explorer Backend](https://critter-explorer-backend.onrender.com/)
+- **Frontend**: [Critter Explorer Frontend](https://critter-explorer.com/)
+- **Backend**: [Critter Explorer Backend](https://critter-explorer-backend.vercel.app/)
 
 Want to see previous versions? Check out the old frontend and backend from 2023:
 - **Old Frontend (2023)**: [Critter Explorer Frontend - Old Version](https://critter-explorer-original2023.netlify.app/)
