@@ -70,22 +70,27 @@ Click on any endpoint link to test it and view the response data.
 
 ### 5. Future Enhancements 🚀
 
-#### Completed Enhancements
-- **Added fish and deep-sea creatures** with separate endpoints ✅
-- **Improved API response times** with caching for city and critter data ✅
+#### **What's Done**
+- **Better Scaling for Users**:
+  - Switched to Vercel, which automatically adjusts resources based on traffic. This keeps the app fast and reliable, even with more users ✅
+- **Made the App Faster**:
+  - Cached city and critter data to avoid repeated API calls and speed up responses ✅
+- **Optimized Static Data**:
+  - Combined all critter info into one `allCrittersCache.json` file, served by Vercel’s CDN for quick delivery ✅
+  - Reduced critter data load times from **500-700ms** to an average of ~**50ms** ✅
 
-#### Planned Enhancements
-- **Further Improve API Performance**: Use Redis caching to speed up responses for frequently requested endpoints like critter data and city searches, reducing external API calls
-  
-- **Pagination for Large Datasets**: Add pagination to critter and image endpoints to handle larger data efficiently and avoid slow responses
+#### **What's Next**
+- **Simplify API Requests**:
+  - Combine `/bugs`, `/fish`, and `/sea-creatures` into a single `/critters` endpoint with filtering options (e.g., `/critters?type=bug`).
 
-- **Endpoint Consolidation**: Combine `/bugs`, `/fish`, and `/sea-creatures` into a single `/critters?type=bug` endpoint for simpler requests
+- **Improve Flickr Image Search**:
+  - Make searches return more accurate images (e.g., no "walking sticks" that aren’t bugs).
 
-- **Improved Image Search**: Enhance Flickr queries to return more relevant images (e.g., filtering out mobility aids for "walking stick")
+- **Better Error Handling**:
+  - Add clearer error messages and fallback options when services like Flickr don’t work.
 
-- **Error Handling Improvements**: Add clearer error messages and fallback responses for external API failures to keep the app functional during disruptions
-
-- **Scaling for More Users**: Enable horizontal scaling with multiple backend instances and load balancing
+- **Paginate Image Results**:
+  - Break large sets of image results into pages for faster loading and better performance.
 
 ---
 
