@@ -1,5 +1,24 @@
+# Node modules
 node_modules/
+
+# Environment variables
 .env
+
+# Logs
 *.log
-*.lock
+
+# System files
 .DS_Store
+
+# Lock files
+*.lock
+
+# Vercel directories and configuration
+.vercel/
+vercel.json
+vercel.dev.json
+vercel.prod.json
+
+# JSON cache or dynamic data
+json/
+*.json
